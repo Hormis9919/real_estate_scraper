@@ -12,14 +12,16 @@ def scrape_listings(total_pages=3):
     raw_listings = []
     for page in range(1,total_pages+1):
         url = URL
+        #get webpage
         response = requests.get(url, headers=headers)
 
         if response.status_code != 200:
             print(f"Failed to fetch page {page}")
             continue
+        #parsing page
         soup = BeautifulSoup(response.content, "html.parser")
         cards = soup.find_all("div", class_="property-card")
-        for card in cards:
+        for card in cards: #create list of listing structures
             title = card.find("h2", class_="title")
             price = card.find("span", class_="price")
             details = card.find("div", class_="details")
